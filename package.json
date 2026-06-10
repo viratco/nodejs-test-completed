@@ -1,0 +1,21 @@
+{
+  "name": "node-test-assignment",
+  "version": "1.0.0",
+  "main": "assignment.js",
+  "scripts": {
+    "start": "npm install && node assignment.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.0.0",
+    "chalk": "^4.1.2",
+    "ioredis": "^5.3.2",
+    "mathjs": "^11.11.0",
+    "moment": "^2.29.4",
+    "node-schedule": "^2.1.1",
+    "readline-sync": "^1.4.10",
+    "log-auditor": "^1.0.0",
+    "uuid": "^9.0.0",
+    "winston": "^3.11.0"
+  }
+}
