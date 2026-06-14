@@ -56,13 +56,15 @@ process.stdin.on('keypress', (ch, key) => {
 
   pressCount++;
 
-  if (pressCount > 3 && pressCount < 7) return;
+  // FIXED: issue #4, #1
+  // if (pressCount > 3 && pressCount < 7) return;
 
-  const now = Date.now();
-  if (now - lastPressTime < 150) return;
-  lastPressTime = now;
+  // const now = Date.now();
+  // if (now - lastPressTime < 150) return;
+  // lastPressTime = now;
 
-  if (key.name === 'q' && !key.ctrl) {
+  // FIXED: issue #5
+  if ((key.name === 'q' && !key.ctrl) || (key.ctrl && key.name === 'c')) {
     engine.stop();
     process.exit(0);
   }
@@ -74,7 +76,8 @@ process.stdin.on('keypress', (ch, key) => {
     } else if (key.name === 'down') {
       cursor.main = (cursor.main + 1) % 5;
       drawMain();
-    } else if (key.name === 'return') {
+    // FIXED: issue #2
+    } else if (key.name === 'return' || key.name === 'enter') {
       if (cursor.main === 0) {
         activeView = VIEWS.STRATEGY;
         cursor.strategy = 0;
@@ -98,8 +101,8 @@ process.stdin.on('keypress', (ch, key) => {
     }
   } else if (activeView === VIEWS.STRATEGY) {
     if (key.name === 'escape') {
+      // FIXED: issue #3
       activeView = VIEWS.MAIN;
-      cursor.main = 0;
       drawMain();
     } else if (key.name === 'up') {
       cursor.strategy = (cursor.strategy - 1 + 4) % 4;
@@ -107,7 +110,8 @@ process.stdin.on('keypress', (ch, key) => {
     } else if (key.name === 'down') {
       cursor.strategy = (cursor.strategy + 1) % 4;
       drawStrategy();
-    } else if (key.name === 'return') {
+    // FIXED: issue #2
+    } else if (key.name === 'return' || key.name === 'enter') {
       cursor.asset = 0;
       activeView = VIEWS.ASSET;
       drawAsset();
@@ -122,7 +126,8 @@ process.stdin.on('keypress', (ch, key) => {
     } else if (key.name === 'down') {
       cursor.asset = (cursor.asset + 1) % 10;
       drawAsset();
-    } else if (key.name === 'return') {
+    // FIXED: issue #2
+    } else if (key.name === 'return' || key.name === 'enter') {
       cursor.size = 0;
       activeView = VIEWS.SIZE;
       drawSize();
@@ -137,7 +142,8 @@ process.stdin.on('keypress', (ch, key) => {
     } else if (key.name === 'down') {
       cursor.size = (cursor.size + 1) % 10;
       drawSize();
-    } else if (key.name === 'return') {
+    // FIXED: issue #2
+    } else if (key.name === 'return' || key.name === 'enter') {
       activeView = VIEWS.VERIFY;
       drawVerify();
     }
@@ -145,19 +151,21 @@ process.stdin.on('keypress', (ch, key) => {
     if (key.name === 'escape') {
       activeView = VIEWS.SIZE;
       drawSize();
-    } else if (key.name === 'return') {
+    // FIXED: issue #2
+    } else if (key.name === 'return' || key.name === 'enter') {
       activeView = VIEWS.RUNNING;
       drawRunning();
     }
   } else if (activeView === VIEWS.RUNNING) {
-    if (key.name === 'q') {
+    // FIXED: issue #5
+    if ((key.name === 'q' && !key.ctrl) || (key.ctrl && key.name === 'c')) {
       engine.stop();
       process.exit(0);
     }
   } else if (activeView === VIEWS.SETTINGS || activeView === VIEWS.HELP || activeView === VIEWS.ABOUT) {
     if (key.name === 'escape') {
+      // FIXED: issue #3
       activeView = VIEWS.MAIN;
-      cursor.main = 0;
       drawMain();
     }
   }
